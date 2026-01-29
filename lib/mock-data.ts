@@ -1,0 +1,740 @@
+// ==============================================
+// SANAD Hospital ER System - Mock Data
+// For UI development before Supabase integration
+// ==============================================
+
+import type {
+  User,
+  Department,
+  Patient,
+  Case,
+  ConsultationRequest,
+  CaseTimeline,
+  Alert,
+  WorkingHours,
+} from "@/lib/types";
+
+// ============================================
+// DEPARTMENTS
+// ============================================
+
+export const mockDepartments: Department[] = [
+  {
+    id: "dept-card",
+    name: "Cardiology",
+    code: "CARD",
+    description: "Heart and cardiovascular system",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "dept-neuro",
+    name: "Neurology",
+    code: "NEURO",
+    description: "Brain and nervous system",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "dept-pulm",
+    name: "Pulmonology",
+    code: "PULM",
+    description: "Respiratory system",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "dept-ortho",
+    name: "Orthopedics",
+    code: "ORTHO",
+    description: "Bones and joints",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "dept-surg",
+    name: "Surgery",
+    code: "SURG",
+    description: "General surgery",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "dept-lab",
+    name: "Laboratory",
+    code: "LAB",
+    description: "Lab tests and diagnostics",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "dept-rad",
+    name: "Radiology",
+    code: "RAD",
+    description: "Imaging and X-rays",
+    is_active: true,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+];
+
+// ============================================
+// USERS
+// ============================================
+
+export const mockUsers: User[] = [
+  // Nurses
+  {
+    id: "user-nurse-1",
+    email: "sarah.nurse@sanad.hospital",
+    full_name: "Sarah Johnson",
+    phone: "+966501234567",
+    whatsapp_number: "+966501234567",
+    role: "nurse",
+    department_id: undefined,
+    specialization: undefined,
+    employee_id: "EMP001",
+    avatar_url: undefined,
+    is_active: true,
+    is_on_duty: true,
+    dnd_status: false,
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "user-nurse-2",
+    email: "fatima.nurse@sanad.hospital",
+    full_name: "Fatima Al-Hassan",
+    phone: "+966502234567",
+    role: "nurse",
+    employee_id: "EMP002",
+    is_active: true,
+    is_on_duty: true,
+    dnd_status: false,
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  // ER Doctors
+  {
+    id: "user-er-1",
+    email: "mohamed.doctor@sanad.hospital",
+    full_name: "Dr. Mohamed Hassan",
+    phone: "+966503234567",
+    whatsapp_number: "+966503234567",
+    role: "er_doctor",
+    department_id: undefined,
+    specialization: "Emergency Medicine",
+    employee_id: "EMP010",
+    is_active: true,
+    is_on_duty: true,
+    dnd_status: false,
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "user-er-2",
+    email: "layla.doctor@sanad.hospital",
+    full_name: "Dr. Layla Ahmed",
+    phone: "+966504234567",
+    role: "er_doctor",
+    specialization: "Emergency Medicine",
+    employee_id: "EMP011",
+    is_active: true,
+    is_on_duty: false,
+    dnd_status: false,
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+  // Consultants
+  {
+    id: "user-cons-1",
+    email: "aisha.cardio@sanad.hospital",
+    full_name: "Dr. Aisha Rahman",
+    phone: "+966505234567",
+    whatsapp_number: "+966505234567",
+    role: "consultant",
+    department_id: "dept-card",
+    specialization: "Interventional Cardiology",
+    employee_id: "EMP020",
+    is_active: true,
+    is_on_duty: true,
+    dnd_status: false,
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+    department: mockDepartments[0],
+  },
+  {
+    id: "user-cons-2",
+    email: "omar.neuro@sanad.hospital",
+    full_name: "Dr. Omar Khalil",
+    phone: "+966506234567",
+    role: "consultant",
+    department_id: "dept-neuro",
+    specialization: "Clinical Neurology",
+    employee_id: "EMP021",
+    is_active: true,
+    is_on_duty: true,
+    dnd_status: true,
+    dnd_until: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+    department: mockDepartments[1],
+  },
+  {
+    id: "user-cons-3",
+    email: "khalid.ortho@sanad.hospital",
+    full_name: "Dr. Khalid Ahmed",
+    phone: "+966507234567",
+    role: "consultant",
+    department_id: "dept-ortho",
+    specialization: "Orthopedic Surgery",
+    employee_id: "EMP022",
+    is_active: true,
+    is_on_duty: false,
+    dnd_status: false,
+    notification_preference: "app",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+    department: mockDepartments[3],
+  },
+  // Flow Manager
+  {
+    id: "user-fm-1",
+    email: "ahmad.manager@sanad.hospital",
+    full_name: "Ahmad Al-Rashid",
+    phone: "+966508234567",
+    whatsapp_number: "+966508234567",
+    role: "flow_manager",
+    employee_id: "EMP100",
+    is_active: true,
+    is_on_duty: true,
+    dnd_status: false,
+    notification_preference: "both",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
+];
+
+// ============================================
+// PATIENTS
+// ============================================
+
+export const mockPatients: Patient[] = [
+  {
+    id: "patient-1",
+    mrn: "MRN-123456",
+    national_id: "1234567890",
+    full_name: "Ahmed Ali",
+    date_of_birth: "1981-05-15",
+    age: 45,
+    gender: "male",
+    phone: "+966509111111",
+    whatsapp_number: "+966509111111",
+    emergency_contact_name: "Fatima Ali",
+    emergency_contact_phone: "+966509111112",
+    emergency_contact_relation: "Spouse",
+    blood_type: "A+",
+    allergies: "Penicillin",
+    chronic_conditions: "Hypertension",
+    current_medications: "Lisinopril 10mg daily",
+    created_at: "2024-01-15T00:00:00Z",
+    updated_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "patient-2",
+    mrn: "MRN-123457",
+    full_name: "Layla Mahmoud",
+    age: 32,
+    gender: "female",
+    phone: "+966509222222",
+    allergies: "None known",
+    created_at: "2024-01-15T00:00:00Z",
+    updated_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "patient-3",
+    mrn: "MRN-123458",
+    full_name: "Omar Khalid",
+    age: 28,
+    gender: "male",
+    phone: "+966509333333",
+    created_at: "2024-01-15T00:00:00Z",
+    updated_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "patient-4",
+    mrn: "MRN-123459",
+    full_name: "Fatima Hassan",
+    age: 55,
+    gender: "female",
+    phone: "+966509444444",
+    chronic_conditions: "Diabetes Type 2",
+    current_medications: "Metformin 500mg twice daily",
+    created_at: "2024-01-15T00:00:00Z",
+    updated_at: "2024-01-15T00:00:00Z",
+  },
+  {
+    id: "patient-5",
+    mrn: "MRN-123460",
+    full_name: "Youssef Mohammed",
+    age: 67,
+    gender: "male",
+    phone: "+966509555555",
+    allergies: "Aspirin, Sulfa drugs",
+    chronic_conditions: "COPD, Atrial Fibrillation",
+    created_at: "2024-01-15T00:00:00Z",
+    updated_at: "2024-01-15T00:00:00Z",
+  },
+];
+
+// ============================================
+// CASES
+// ============================================
+
+const now = new Date();
+const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+export const mockCases: (Case & { patient?: Patient })[] = [
+  {
+    id: "case-1",
+    case_number: `ER-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0024`,
+    patient_id: "patient-1",
+    status: "in_progress",
+    priority: "critical",
+    is_urgent: true,
+    is_life_saving: true,
+    arrival_time: new Date(now.getTime() - 90 * 60000).toISOString(), // 90 min ago
+    arrival_mode: "ambulance",
+    triage_nurse_id: "user-nurse-1",
+    triage_time: new Date(now.getTime() - 88 * 60000).toISOString(),
+    initial_complaint: "Severe chest pain radiating to left arm, shortness of breath",
+    blood_pressure_systolic: 160,
+    blood_pressure_diastolic: 95,
+    heart_rate: 110,
+    temperature: 37.2,
+    respiratory_rate: 22,
+    oxygen_saturation: 94,
+    pain_level: 8,
+    er_doctor_id: "user-er-1",
+    assessment_time: new Date(now.getTime() - 75 * 60000).toISOString(),
+    chief_complaint: "Acute chest pain with diaphoresis, suspected ACS",
+    suspected_diagnosis: "Acute Coronary Syndrome - Rule out STEMI",
+    clinical_notes: "Patient appears diaphoretic and anxious. ECG ordered stat.",
+    ai_summary: "45-year-old male presenting with severe chest pain radiating to left arm. Vitals indicate possible cardiac event. BP elevated, HR tachycardic. ECG ordered, awaiting cardiology consultation. Recommendation: Urgent cardio evaluation for possible STEMI.",
+    ai_summary_updated_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    follow_up_required: false,
+    created_at: new Date(now.getTime() - 90 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 10 * 60000).toISOString(),
+    patient: mockPatients[0],
+  },
+  {
+    id: "case-2",
+    case_number: `ER-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0023`,
+    patient_id: "patient-4",
+    status: "open",
+    priority: "urgent",
+    is_urgent: false,
+    is_life_saving: false,
+    arrival_time: new Date(now.getTime() - 60 * 60000).toISOString(), // 60 min ago
+    arrival_mode: "walk_in",
+    triage_nurse_id: "user-nurse-1",
+    triage_time: new Date(now.getTime() - 55 * 60000).toISOString(),
+    initial_complaint: "Severe abdominal pain, nausea, vomiting",
+    blood_pressure_systolic: 145,
+    blood_pressure_diastolic: 85,
+    heart_rate: 88,
+    temperature: 38.1,
+    respiratory_rate: 18,
+    oxygen_saturation: 98,
+    pain_level: 7,
+    follow_up_required: false,
+    created_at: new Date(now.getTime() - 60 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 55 * 60000).toISOString(),
+    patient: mockPatients[3],
+  },
+  {
+    id: "case-3",
+    case_number: `ER-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0022`,
+    patient_id: "patient-3",
+    status: "in_progress",
+    priority: "stable",
+    is_urgent: false,
+    is_life_saving: false,
+    arrival_time: new Date(now.getTime() - 120 * 60000).toISOString(), // 2 hours ago
+    arrival_mode: "walk_in",
+    triage_nurse_id: "user-nurse-2",
+    initial_complaint: "Minor laceration on forearm from kitchen accident",
+    blood_pressure_systolic: 120,
+    blood_pressure_diastolic: 78,
+    heart_rate: 72,
+    temperature: 36.8,
+    oxygen_saturation: 99,
+    pain_level: 3,
+    er_doctor_id: "user-er-1",
+    chief_complaint: "3cm laceration on left forearm, superficial",
+    suspected_diagnosis: "Superficial laceration requiring sutures",
+    follow_up_required: false,
+    created_at: new Date(now.getTime() - 120 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 45 * 60000).toISOString(),
+    patient: mockPatients[2],
+  },
+  {
+    id: "case-4",
+    case_number: `ER-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0021`,
+    patient_id: "patient-2",
+    status: "in_progress",
+    priority: "critical",
+    is_urgent: true,
+    is_life_saving: false,
+    arrival_time: new Date(now.getTime() - 150 * 60000).toISOString(), // 2.5 hours ago
+    arrival_mode: "ambulance",
+    triage_nurse_id: "user-nurse-1",
+    initial_complaint: "Difficulty breathing, wheezing, history of asthma",
+    blood_pressure_systolic: 135,
+    blood_pressure_diastolic: 82,
+    heart_rate: 105,
+    temperature: 37.5,
+    respiratory_rate: 28,
+    oxygen_saturation: 91,
+    pain_level: 4,
+    er_doctor_id: "user-er-1",
+    chief_complaint: "Acute asthma exacerbation with respiratory distress",
+    suspected_diagnosis: "Severe asthma exacerbation",
+    follow_up_required: false,
+    created_at: new Date(now.getTime() - 150 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 60 * 60000).toISOString(),
+    patient: mockPatients[1],
+  },
+  {
+    id: "case-5",
+    case_number: `ER-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0020`,
+    patient_id: "patient-5",
+    status: "discharged",
+    priority: "stable",
+    is_urgent: false,
+    is_life_saving: false,
+    arrival_time: new Date(now.getTime() - 240 * 60000).toISOString(), // 4 hours ago
+    arrival_mode: "walk_in",
+    triage_nurse_id: "user-nurse-2",
+    initial_complaint: "Dizziness and mild headache",
+    blood_pressure_systolic: 150,
+    blood_pressure_diastolic: 88,
+    heart_rate: 68,
+    temperature: 36.9,
+    oxygen_saturation: 97,
+    pain_level: 2,
+    er_doctor_id: "user-er-1",
+    chief_complaint: "Benign positional vertigo",
+    suspected_diagnosis: "BPPV",
+    discharge_time: new Date(now.getTime() - 60 * 60000).toISOString(),
+    discharge_type: "discharged",
+    discharge_notes: "Patient stable. Prescribed Meclizine. Follow up with ENT if symptoms persist.",
+    follow_up_required: true,
+    follow_up_date: new Date(now.getTime() + 7 * 24 * 60 * 60000).toISOString().slice(0, 10),
+    follow_up_instructions: "Follow up with ENT specialist if dizziness persists beyond 1 week",
+    created_at: new Date(now.getTime() - 240 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 60 * 60000).toISOString(),
+    patient: mockPatients[4],
+  },
+];
+
+// ============================================
+// CONSULTATION REQUESTS
+// ============================================
+
+export const mockRequests: (ConsultationRequest & { 
+  case?: Case & { patient?: Patient }; 
+  requester?: User;
+  assigned_consultant?: User;
+  target_department?: Department;
+})[] = [
+  {
+    id: "req-1",
+    case_id: "case-1",
+    request_number: `REQ-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0042`,
+    request_type: "consultation",
+    title: "Cardiology Consultation - Possible STEMI",
+    description: "45M with acute chest pain, ST elevation on ECG. Need urgent evaluation for possible STEMI. Consider cath lab activation.",
+    urgency: "critical",
+    target_department_id: "dept-card",
+    assigned_consultant_id: "user-cons-1",
+    status: "in_progress",
+    acknowledged_at: new Date(now.getTime() - 25 * 60000).toISOString(),
+    acknowledged_by: "user-cons-1",
+    owned_at: new Date(now.getTime() - 20 * 60000).toISOString(),
+    owned_by: "user-cons-1",
+    sla_deadline: new Date(now.getTime() + 15 * 60000).toISOString(), // 15 min from now
+    sla_breached: false,
+    escalation_level: 0,
+    requested_by: "user-er-1",
+    requested_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    created_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 20 * 60000).toISOString(),
+    case: mockCases[0],
+    requester: mockUsers.find(u => u.id === "user-er-1"),
+    assigned_consultant: mockUsers.find(u => u.id === "user-cons-1"),
+    target_department: mockDepartments[0],
+  },
+  {
+    id: "req-2",
+    case_id: "case-1",
+    request_number: `REQ-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0043`,
+    request_type: "lab",
+    title: "Cardiac Enzymes - STAT",
+    description: "Troponin I, CK-MB, BNP - STAT for suspected ACS",
+    urgency: "critical",
+    target_department_id: "dept-lab",
+    status: "pending",
+    sla_deadline: new Date(now.getTime() + 8 * 60000).toISOString(), // 8 min from now
+    sla_breached: false,
+    escalation_level: 0,
+    requested_by: "user-er-1",
+    requested_at: new Date(now.getTime() - 28 * 60000).toISOString(),
+    created_at: new Date(now.getTime() - 28 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 28 * 60000).toISOString(),
+    case: mockCases[0],
+    requester: mockUsers.find(u => u.id === "user-er-1"),
+    target_department: mockDepartments[5],
+  },
+  {
+    id: "req-3",
+    case_id: "case-1",
+    request_number: `REQ-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0041`,
+    request_type: "imaging",
+    title: "12-Lead ECG",
+    description: "Chest pain workup - rule out STEMI",
+    urgency: "critical",
+    target_department_id: "dept-card",
+    status: "completed",
+    completed_at: new Date(now.getTime() - 40 * 60000).toISOString(),
+    completed_by: "user-cons-1",
+    sla_deadline: new Date(now.getTime() - 35 * 60000).toISOString(),
+    sla_breached: false,
+    escalation_level: 0,
+    result_notes: "ST elevation noted in leads V1-V4. Consistent with anterior STEMI pattern.",
+    requested_by: "user-er-1",
+    requested_at: new Date(now.getTime() - 50 * 60000).toISOString(),
+    created_at: new Date(now.getTime() - 50 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 40 * 60000).toISOString(),
+    case: mockCases[0],
+    requester: mockUsers.find(u => u.id === "user-er-1"),
+    target_department: mockDepartments[0],
+  },
+  {
+    id: "req-4",
+    case_id: "case-4",
+    request_number: `REQ-${todayStart.toISOString().slice(0, 10).replace(/-/g, "")}-0040`,
+    request_type: "consultation",
+    title: "Pulmonology Consultation - Severe Asthma",
+    description: "32F with acute asthma exacerbation, not responding adequately to nebulizers. SpO2 91%.",
+    urgency: "urgent",
+    target_department_id: "dept-pulm",
+    status: "acknowledged",
+    acknowledged_at: new Date(now.getTime() - 15 * 60000).toISOString(),
+    sla_deadline: new Date(now.getTime() + 25 * 60000).toISOString(),
+    sla_breached: false,
+    escalation_level: 0,
+    requested_by: "user-er-1",
+    requested_at: new Date(now.getTime() - 45 * 60000).toISOString(),
+    created_at: new Date(now.getTime() - 45 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 15 * 60000).toISOString(),
+    case: mockCases[3],
+    requester: mockUsers.find(u => u.id === "user-er-1"),
+    target_department: mockDepartments[2],
+  },
+];
+
+// ============================================
+// CASE TIMELINE
+// ============================================
+
+export const mockTimeline: (CaseTimeline & { creator?: User })[] = [
+  // Case 1 timeline
+  {
+    id: "timeline-1",
+    case_id: "case-1",
+    action_type: "arrival",
+    title: "Patient arrived at ED",
+    description: "Mode: Ambulance. Complaint: Severe chest pain radiating to left arm",
+    created_by: "user-nurse-1",
+    created_by_role: "nurse",
+    created_at: new Date(now.getTime() - 90 * 60000).toISOString(),
+    sequence_number: 1,
+    creator: mockUsers.find(u => u.id === "user-nurse-1"),
+  },
+  {
+    id: "timeline-2",
+    case_id: "case-1",
+    action_type: "triage",
+    title: "Triage completed",
+    description: "Priority: Critical. BP: 160/95, HR: 110, SpO2: 94%",
+    created_by: "user-nurse-1",
+    created_by_role: "nurse",
+    created_at: new Date(now.getTime() - 88 * 60000).toISOString(),
+    sequence_number: 2,
+    creator: mockUsers.find(u => u.id === "user-nurse-1"),
+  },
+  {
+    id: "timeline-3",
+    case_id: "case-1",
+    action_type: "assessment",
+    title: "Clinical assessment completed",
+    description: "Suspected Acute Coronary Syndrome. Priority upgraded to Critical.",
+    notes: "Patient appears diaphoretic and anxious",
+    created_by: "user-er-1",
+    created_by_role: "er_doctor",
+    created_at: new Date(now.getTime() - 75 * 60000).toISOString(),
+    sequence_number: 3,
+    creator: mockUsers.find(u => u.id === "user-er-1"),
+  },
+  {
+    id: "timeline-4",
+    case_id: "case-1",
+    action_type: "request",
+    title: "ECG ordered - STAT",
+    description: "12-Lead ECG for chest pain workup",
+    created_by: "user-er-1",
+    created_by_role: "er_doctor",
+    created_at: new Date(now.getTime() - 50 * 60000).toISOString(),
+    sequence_number: 4,
+    creator: mockUsers.find(u => u.id === "user-er-1"),
+  },
+  {
+    id: "timeline-5",
+    case_id: "case-1",
+    action_type: "result",
+    title: "ECG completed - ST elevation noted",
+    description: "ST elevation in leads V1-V4. Consistent with anterior STEMI pattern.",
+    created_by: "user-cons-1",
+    created_by_role: "consultant",
+    created_at: new Date(now.getTime() - 40 * 60000).toISOString(),
+    sequence_number: 5,
+    creator: mockUsers.find(u => u.id === "user-cons-1"),
+  },
+  {
+    id: "timeline-6",
+    case_id: "case-1",
+    action_type: "request",
+    title: "Cardiology consultation requested",
+    description: "Assigned to Dr. Aisha Rahman. Urgency: Critical",
+    created_by: "user-er-1",
+    created_by_role: "er_doctor",
+    created_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    sequence_number: 6,
+    creator: mockUsers.find(u => u.id === "user-er-1"),
+  },
+  {
+    id: "timeline-7",
+    case_id: "case-1",
+    action_type: "request_update",
+    title: "Consultation acknowledged",
+    description: "Dr. Aisha Rahman acknowledged the request",
+    created_by: "user-cons-1",
+    created_by_role: "consultant",
+    created_at: new Date(now.getTime() - 25 * 60000).toISOString(),
+    sequence_number: 7,
+    creator: mockUsers.find(u => u.id === "user-cons-1"),
+  },
+];
+
+// ============================================
+// ALERTS
+// ============================================
+
+export const mockAlerts: (Alert & { case?: Case })[] = [
+  {
+    id: "alert-1",
+    case_id: "case-1",
+    request_id: "req-2",
+    alert_type: "sla_warning",
+    title: "SLA Warning: Lab Request",
+    message: "Cardiac enzymes request approaching SLA deadline",
+    priority: "critical",
+    target_role: "flow_manager",
+    status: "pending",
+    app_notified: true,
+    app_notified_at: new Date(now.getTime() - 5 * 60000).toISOString(),
+    whatsapp_notified: false,
+    created_at: new Date(now.getTime() - 5 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 5 * 60000).toISOString(),
+    case: mockCases[0],
+  },
+  {
+    id: "alert-2",
+    case_id: "case-1",
+    alert_type: "new_request",
+    title: "New Critical Request",
+    message: "Cardiology consultation requested for possible STEMI",
+    priority: "critical",
+    target_user_id: "user-cons-1",
+    status: "acknowledged",
+    acknowledged_at: new Date(now.getTime() - 25 * 60000).toISOString(),
+    acknowledged_by: "user-cons-1",
+    app_notified: true,
+    app_notified_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    whatsapp_notified: true,
+    whatsapp_notified_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    created_at: new Date(now.getTime() - 30 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 25 * 60000).toISOString(),
+    case: mockCases[0],
+  },
+  {
+    id: "alert-3",
+    case_id: "case-4",
+    alert_type: "new_request",
+    title: "New Urgent Request",
+    message: "Pulmonology consultation for severe asthma exacerbation",
+    priority: "urgent",
+    target_department_id: "dept-pulm",
+    status: "pending",
+    app_notified: true,
+    app_notified_at: new Date(now.getTime() - 45 * 60000).toISOString(),
+    whatsapp_notified: false,
+    created_at: new Date(now.getTime() - 45 * 60000).toISOString(),
+    updated_at: new Date(now.getTime() - 45 * 60000).toISOString(),
+    case: mockCases[3],
+  },
+];
+
+// ============================================
+// HELPER FUNCTIONS FOR MOCK DATA
+// ============================================
+
+export function getMockUser(role?: string): User {
+  if (role) {
+    return mockUsers.find(u => u.role === role) || mockUsers[0];
+  }
+  return mockUsers[0];
+}
+
+export function getMockCasesByPriority(priority: string): (Case & { patient?: Patient })[] {
+  return mockCases.filter(c => c.priority === priority && c.status !== "discharged" && c.status !== "closed");
+}
+
+export function getMockActiveCases(): (Case & { patient?: Patient })[] {
+  return mockCases.filter(c => c.status !== "discharged" && c.status !== "closed");
+}
+
+export function getMockRequestsByStatus(status: string): typeof mockRequests {
+  return mockRequests.filter(r => r.status === status);
+}
+
+export function getMockPendingAlerts(): typeof mockAlerts {
+  return mockAlerts.filter(a => a.status === "pending");
+}
+
+export function getMockCaseTimeline(caseId: string): typeof mockTimeline {
+  return mockTimeline.filter(t => t.case_id === caseId);
+}
