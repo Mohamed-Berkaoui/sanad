@@ -521,7 +521,7 @@ export interface RealtimePayload<T> {
   old: T | null;
 }
 
-export interface CaseUpdatePayload extends RealtimePayload<Case> {}
-export interface RequestUpdatePayload extends RealtimePayload<ConsultationRequest> {}
-export interface AlertPayload extends RealtimePayload<Alert> {}
-export interface MessagePayload extends RealtimePayload<CaseMessage> {}
+export type CaseUpdatePayload = RealtimePayload<Case>;
+export type RequestUpdatePayload = RealtimePayload<ConsultationRequest>;
+export type AlertPayload = RealtimePayload<Alert>;
+export type MessagePayload = RealtimePayload<CaseMessage>;

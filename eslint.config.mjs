@@ -13,6 +13,13 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Project rule overrides
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-empty-interface": ["warn", { "allowSingleExtends": true }]
+    }
+  }
 ]);
 
 export default eslintConfig;

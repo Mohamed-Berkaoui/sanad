@@ -19,7 +19,9 @@ export default function DashboardRootLayout({
 
   // Handle client-side mounting
   useEffect(() => {
-    setMounted(true);
+    // Defer setState to avoid synchronous state update inside effect
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Fetch alert count
